@@ -1,0 +1,8 @@
+[package]
+name = "lang"
+version = "0.1.0"
+authors = ["Nathan Fuchs <fuchsnj@gmail.com>"]
+
+[dependencies]
+byteorder = "1.0.0"
+leb128 = "0.2.1"
