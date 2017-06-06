@@ -1,8 +1,7 @@
-use wasm::FunctionSignature;
 use super::{ModuleSection, SectionId};
 use std::io::Write;
 use leb128;
-use wasm::module::ExternalKind;
+use module::ExternalKind;
 //use super::super::
 
 pub struct ExportSection {

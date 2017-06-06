@@ -1,10 +1,8 @@
 pub struct Compiler;
 
-use std::io::{BufWriter, Write, Cursor};
+use std::io::{BufWriter, Write};
 use std::fs::File;
-use super::module::{Module};
-use byteorder::{LittleEndian, WriteBytesExt};
-use wasm::module::sections::ModuleSection;
+use super::module::Module;
 
 impl Compiler {
 	pub fn new() -> Compiler {
@@ -14,7 +12,7 @@ impl Compiler {
 	pub fn compile<W: Write>(&self, module: &mut Module, out: W) {
 		let mut buffer = BufWriter::new(out);
 		module.compile(&mut buffer);
-		buffer.flush();
+		buffer.flush().unwrap();
 	}
 
 	pub fn compile_to_file(&self, module: &mut Module, filename: &str) {

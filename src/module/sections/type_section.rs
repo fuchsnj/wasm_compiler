@@ -1,4 +1,4 @@
-use wasm::FunctionSignature;
+use FunctionSignature;
 use super::{ModuleSection, SectionId};
 use std::io::Write;
 use leb128;
@@ -27,7 +27,7 @@ impl ModuleSection for TypeSection{
 	}
 
 	fn compile_payload<W: Write>(&self, out: &mut W) {
-		leb128::write::unsigned(out, self.len() as u64);//number of type entries
+		leb128::write::unsigned(out, self.len() as u64).unwrap();//number of type entries
 		for type_entry in &self.type_list{
 			type_entry.compile(out);
 		}

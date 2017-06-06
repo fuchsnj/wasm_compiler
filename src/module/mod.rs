@@ -45,8 +45,8 @@ impl Module {
 	}
 
 	pub fn compile<W: Write>(&mut self, out: &mut W) {
-		out.write_all(b"\0asm");//magic number
-		out.write_u32::<LittleEndian>(1);//version
+		out.write_all(b"\0asm").unwrap();//magic number
+		out.write_u32::<LittleEndian>(1).unwrap();//version
 
 		self.get_type_section().compile(out);//1
 		self.get_function_section().compile(out);//3

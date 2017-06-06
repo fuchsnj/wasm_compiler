@@ -20,11 +20,11 @@ pub trait ModuleSection{
 			}
 			let mut cursor: Cursor<Vec<u8>> = Cursor::new(vec!());
 			self.compile_payload(&mut cursor);
-			let mut inner_buffer = cursor.into_inner();
+			let inner_buffer = cursor.into_inner();
 			let payload_len = inner_buffer.len();
 
 			leb128::write::unsigned(out, self.get_id().get_numeric_id() as u64).unwrap();//section id
-			leb128::write::unsigned(out, payload_len as u64);//payload size + name
+			leb128::write::unsigned(out, payload_len as u64).unwrap();//payload size + name
 			out.write_all(&inner_buffer).unwrap();
 		}
 	}

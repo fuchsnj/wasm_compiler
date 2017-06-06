@@ -1,4 +1,3 @@
-use wasm::FunctionSignature;
 use super::{ModuleSection, SectionId};
 use std::io::Write;
 use leb128;

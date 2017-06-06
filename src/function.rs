@@ -15,16 +15,16 @@ impl FunctionSignature{
 	}
 
 	pub fn compile<W: Write>(&self, out: &mut W){
-		leb128::write::signed(out, Type::Func as u64 as i64);//Func type constructor id
-		leb128::write::unsigned(out, self.param_types.len() as u64);//num of parameter types
+		leb128::write::signed(out, Type::Func as u64 as i64).unwrap();//Func type constructor id
+		leb128::write::unsigned(out, self.param_types.len() as u64).unwrap();//num of parameter types
 		for param_type in &self.param_types{
-			leb128::write::signed(out, *param_type as u64 as i64);//param type id
+			leb128::write::signed(out, *param_type as u64 as i64).unwrap();//param type id
 		}
 		if let Some(return_type) = self.return_type{
-			leb128::write::unsigned(out, 1);
-			leb128::write::signed(out, return_type as u64 as i64);//return type id
+			leb128::write::unsigned(out, 1).unwrap();
+			leb128::write::signed(out, return_type as u64 as i64).unwrap();//return type id
 		}else{
-			leb128::write::unsigned(out, 0);
+			leb128::write::unsigned(out, 0).unwrap();
 		}
 	}
 }
