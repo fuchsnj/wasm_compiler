@@ -3,15 +3,16 @@ pub mod call;
 pub mod parametric;
 pub mod variable;
 pub mod memory;
+pub mod constant;
 
 use std::io::Write;
 use std::io;
 
-pub trait Bytecode{
+pub trait Bytecode {
 	fn compile<W: Write>(&self, out: &mut W) -> io::Result<()>;
 }
 
-pub enum AnyBytecode{
+pub enum AnyBytecode {
 	Unreachable(control_flow::Unreachable),
 	NoOp(control_flow::NoOp),
 	Block(control_flow::Block),
@@ -61,11 +62,16 @@ pub enum AnyBytecode{
 	CurrentMemory(memory::CurrentMemory),
 	GrowMemory(memory::GrowMemory),
 
+	I32Constant(constant::I32Constant),
+	I64Constant(constant::I64Constant),
+	F32Constant(constant::F32Constant),
+	F64Constant(constant::F64Constant),
+
 }
 
-impl Bytecode for AnyBytecode{
+impl Bytecode for AnyBytecode {
 	fn compile<W: Write>(&self, out: &mut W) -> io::Result<()> {
-		match *self{
+		match *self {
 			AnyBytecode::Unreachable(ref x) => x.compile(out),
 			AnyBytecode::NoOp(ref x) => x.compile(out),
 			AnyBytecode::Block(ref x) => x.compile(out),
@@ -114,13 +120,18 @@ impl Bytecode for AnyBytecode{
 			AnyBytecode::I64Store32(ref x) => x.compile(out),
 			AnyBytecode::CurrentMemory(ref x) => x.compile(out),
 			AnyBytecode::GrowMemory(ref x) => x.compile(out),
+
+			AnyBytecode::I32Constant(ref x) => x.compile(out),
+			AnyBytecode::I64Constant(ref x) => x.compile(out),
+			AnyBytecode::F32Constant(ref x) => x.compile(out),
+			AnyBytecode::F64Constant(ref x) => x.compile(out),
 		}
 	}
 }
 
-impl Bytecode for Vec<AnyBytecode>{
+impl Bytecode for Vec<AnyBytecode> {
 	fn compile<W: Write>(&self, out: &mut W) -> io::Result<()> {
-		for bytecode in self{
+		for bytecode in self {
 			bytecode.compile(out)?;
 		}
 		Ok(())
