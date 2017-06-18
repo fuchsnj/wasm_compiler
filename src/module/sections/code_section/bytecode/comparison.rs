@@ -1,8 +1,6 @@
 use super::Bytecode;
 use std::io::Write;
 use std::io;
-use leb128;
-use byteorder::{WriteBytesExt, LittleEndian};
 
 const I32_EQZ: u8 = 0x45;
 const I32_EQ: u8 = 0x46;
