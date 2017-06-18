@@ -6,6 +6,7 @@ pub mod memory;
 pub mod constant;
 pub mod comparison;
 pub mod numeric;
+pub mod conversion;
 
 use std::io::Write;
 use std::io;
@@ -172,6 +173,32 @@ pub enum AnyBytecode {
 	F64Min(numeric::F64Min),
 	F64Max(numeric::F64Max),
 	F64CopySign(numeric::F64CopySign),
+
+	I32WrapI64(conversion::I32WrapI64),
+	I32TruncateSignedF32(conversion::I32TruncateSignedF32),
+	I32TruncateUnsignedF32(conversion::I32TruncateUnsignedF32),
+	I32TruncateSignedF64(conversion::I32TruncateSignedF64),
+	I32TruncateUnsignedF64(conversion::I32TruncateUnsignedF64),
+
+	I64ExtendSignedI32(conversion::I64ExtendSignedI32),
+	I64ExtendUnsignedI32(conversion::I64ExtendUnsignedI32),
+	I64TruncateSignedF32(conversion::I64TruncateSignedF32),
+	I64TruncateUnsignedF32(conversion::I64TruncateUnsignedF32),
+	I64TruncateSignedF64(conversion::I64TruncateSignedF64),
+	I64TruncateUnsignedF64(conversion::I64TruncateUnsignedF64),
+
+	F32ConvertSignedI32(conversion::F32ConvertSignedI32),
+	F32ConvertUnsignedI32(conversion::F32ConvertUnsignedI32),
+	F32ConvertSignedI64(conversion::F32ConvertSignedI64),
+	F32ConvertUnsignedI64(conversion::F32ConvertUnsignedI64),
+	F32DemoteF64(conversion::F32DemoteF64),
+
+	F64ConvertSignedI32(conversion::F64ConvertSignedI32),
+	F64ConvertUnsignedI32(conversion::F64ConvertUnsignedI32),
+	F64ConvertSignedI64(conversion::F64ConvertSignedI64),
+	F64ConvertUnsignedI64(conversion::F64ConvertUnsignedI64),
+	F64PromoteF32(conversion::F64PromoteF32),
+
 }
 
 impl Bytecode for AnyBytecode {
@@ -334,6 +361,31 @@ impl Bytecode for AnyBytecode {
 			AnyBytecode::F64Min(ref x) => x.compile(out),
 			AnyBytecode::F64Max(ref x) => x.compile(out),
 			AnyBytecode::F64CopySign(ref x) => x.compile(out),
+
+			AnyBytecode::I32WrapI64(ref x) => x.compile(out),
+			AnyBytecode::I32TruncateSignedF32(ref x) => x.compile(out),
+			AnyBytecode::I32TruncateUnsignedF32(ref x) => x.compile(out),
+			AnyBytecode::I32TruncateSignedF64(ref x) => x.compile(out),
+			AnyBytecode::I32TruncateUnsignedF64(ref x) => x.compile(out),
+
+			AnyBytecode::I64ExtendSignedI32(ref x) => x.compile(out),
+			AnyBytecode::I64ExtendUnsignedI32(ref x) => x.compile(out),
+			AnyBytecode::I64TruncateSignedF32(ref x) => x.compile(out),
+			AnyBytecode::I64TruncateUnsignedF32(ref x) => x.compile(out),
+			AnyBytecode::I64TruncateSignedF64(ref x) => x.compile(out),
+			AnyBytecode::I64TruncateUnsignedF64(ref x) => x.compile(out),
+
+			AnyBytecode::F32ConvertSignedI32(ref x) => x.compile(out),
+			AnyBytecode::F32ConvertUnsignedI32(ref x) => x.compile(out),
+			AnyBytecode::F32ConvertSignedI64(ref x) => x.compile(out),
+			AnyBytecode::F32ConvertUnsignedI64(ref x) => x.compile(out),
+			AnyBytecode::F32DemoteF64(ref x) => x.compile(out),
+
+			AnyBytecode::F64ConvertSignedI32(ref x) => x.compile(out),
+			AnyBytecode::F64ConvertUnsignedI32(ref x) => x.compile(out),
+			AnyBytecode::F64ConvertSignedI64(ref x) => x.compile(out),
+			AnyBytecode::F64ConvertUnsignedI64(ref x) => x.compile(out),
+			AnyBytecode::F64PromoteF32(ref x) => x.compile(out),
 		}
 	}
 }
