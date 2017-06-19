@@ -7,6 +7,7 @@ pub mod constant;
 pub mod comparison;
 pub mod numeric;
 pub mod conversion;
+pub mod reinterpret;
 
 use std::io::Write;
 use std::io;
@@ -199,6 +200,11 @@ pub enum AnyBytecode {
 	F64ConvertUnsignedI64(conversion::F64ConvertUnsignedI64),
 	F64PromoteF32(conversion::F64PromoteF32),
 
+	I32ReinterpretF32(reinterpret::I32ReinterpretF32),
+	I32ReinterpretF64(reinterpret::I32ReinterpretF64),
+	F32ReinterpretI32(reinterpret::F32ReinterpretI32),
+	F63ReinterpretI64(reinterpret::F64ReinterpretI64),
+
 }
 
 impl Bytecode for AnyBytecode {
@@ -386,6 +392,11 @@ impl Bytecode for AnyBytecode {
 			AnyBytecode::F64ConvertSignedI64(ref x) => x.compile(out),
 			AnyBytecode::F64ConvertUnsignedI64(ref x) => x.compile(out),
 			AnyBytecode::F64PromoteF32(ref x) => x.compile(out),
+
+			AnyBytecode::I32ReinterpretF32(ref x) => x.compile(out),
+			AnyBytecode::I32ReinterpretF64(ref x) => x.compile(out),
+			AnyBytecode::F32ReinterpretI32(ref x) => x.compile(out),
+			AnyBytecode::F63ReinterpretI64(ref x) => x.compile(out),
 		}
 	}
 }
