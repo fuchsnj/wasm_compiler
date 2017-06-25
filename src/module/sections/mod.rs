@@ -1,7 +1,7 @@
-mod type_section;
-mod function_section;
-mod export_section;
-mod code_section;
+pub mod type_section;
+pub mod function_section;
+pub mod export_section;
+pub mod code_section;
 
 pub use self::type_section::TypeSection;
 pub use self::function_section::FunctionSection;
@@ -9,7 +9,7 @@ pub use self::export_section::{ExportSection, ExportEntry};
 pub use self::code_section::CodeSection;
 
 use leb128;
-use std::io::{Write, Cursor};
+use std::io::Write;
 use write_sized_data;
 
 pub trait ModuleSection{

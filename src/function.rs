@@ -1,13 +1,13 @@
-use super::Type;
+use super::{Type, ValueType};
 use std::io::Write;
 use leb128;
 
 pub struct FunctionSignature{
-	param_types: Vec<Type>,
-	return_type: Option<Type>
+	param_types: Vec<ValueType>,
+	return_type: Option<ValueType>
 }
 impl FunctionSignature{
-	pub fn new(param_types: Vec<Type>, return_type: Option<Type>) -> FunctionSignature{
+	pub fn new(param_types: Vec<ValueType>, return_type: Option<ValueType>) -> FunctionSignature{
 		FunctionSignature{
 			param_types,
 			return_type
@@ -15,7 +15,8 @@ impl FunctionSignature{
 	}
 
 	pub fn compile<W: Write>(&self, out: &mut W){
-		leb128::write::signed(out, Type::Func as u64 as i64).unwrap();//Func type constructor id
+		leb128::write::signed(out, Type::Func.get_bytecode() as i64).unwrap();//Func type
+		// constructor id
 		leb128::write::unsigned(out, self.param_types.len() as u64).unwrap();//num of parameter types
 		for param_type in &self.param_types{
 			leb128::write::signed(out, *param_type as u64 as i64).unwrap();//param type id

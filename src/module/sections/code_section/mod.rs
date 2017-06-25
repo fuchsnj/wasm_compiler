@@ -1,11 +1,11 @@
-mod bytecode;
+pub mod bytecode;
 
-use FunctionSignature;
 use ty::ValueType;
 use super::{ModuleSection, SectionId};
 use std::io::Write;
 use leb128;
 use write_sized_data;
+use self::bytecode::{AnyBytecode, Bytecode};
 
 pub struct CodeSection {
 	function_bodies: Vec<FunctionBody>
@@ -16,6 +16,9 @@ impl CodeSection {
 		CodeSection {
 			function_bodies: vec!()
 		}
+	}
+	pub fn add_function_body(&mut self, bytecode: Vec<AnyBytecode>){
+		self.function_bodies.push(FunctionBody::new(bytecode));
 	}
 	pub fn len(&self) -> usize {
 		self.function_bodies.len()
@@ -40,15 +43,24 @@ impl ModuleSection for CodeSection{
 
 
 pub struct FunctionBody{
-	local_vars: Vec<LocalVar>
+	local_vars: Vec<LocalVar>,
+	bytecode: Vec<AnyBytecode>
 }
 impl FunctionBody{
+	pub fn new(bytecode: Vec<AnyBytecode>) -> FunctionBody{
+		FunctionBody{
+			local_vars: Vec::new(),
+			bytecode: bytecode
+		}
+	}
 	pub fn compile<W: Write>(&self, out: &mut W){
 		write_sized_data(out, |out|{
 			leb128::write::unsigned(out, self.local_vars.len() as u64).unwrap();//number of local_vars
 			for local_var in &self.local_vars{
 				local_var.compile(out);
 			}
+			self.bytecode.compile(out).unwrap();
+			out.write_all(&[0x0b]).unwrap();
 		});
 	}
 }

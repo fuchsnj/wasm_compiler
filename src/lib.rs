@@ -11,7 +11,7 @@ mod test;
 
 pub use self::compiler::Compiler;
 pub use self::module::Module;
-pub use self::ty::{Type, ValueType};
+pub use self::ty::{Type, ValueType, BlockType};
 pub use self::function::{FunctionSignature};
 
 use std::io::{Cursor, Write};
